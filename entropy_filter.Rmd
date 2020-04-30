@@ -1,0 +1,63 @@
+# Functions
+```{r}
+str_entropy <- function(s) {
+    f <- table(strsplit(s, "")) / nchar(s)
+    print(f)
+    h <- 0
+    for (i in f) {
+        if (i != 0) {
+            h <- h + i * log2(i)
+        }
+    }
+    return(-h)
+}
+
+str_entropy2 <- function(s, k_len) {
+    #----- contingency table for probability -----#
+    nb_kmer <- nchar(s) - k_len + 1
+    kmer_list <- c()
+    for (pstart in 1 : nb_kmer) {
+        kmer_list <- c(kmer_list, substr(s, pstart, pstart + k_len - 1))
+    }
+    f <- table(kmer_list) / sum(table(kmer_list))
+    print(f) # print the contingency table for check #
+    #----- sum all probabilities -----#
+    h <- 0
+    for (i in f) {
+        if (i != 0) {
+            h <- h + i * log2(i)
+        }
+    }
+    return(-h)
+}
+```
+
+# A Sampe Case
+For a sequence of repetition of (ATC) motif with an supplementary A at the end, the entropie does not decrease by taking 3-mers instead of single nucleotide for elementary motifs.
+
+```{r}
+print(paste("Entropie:", round(str_entropy("ATCATCATCATCATCATCATCATCATCATCA", 1), 6)))
+```
+
+```{r}
+print(paste("Entropie:", round(str_entropy("ATCATCATCATCATCATCATCATCATCATCA", 2), 6)))
+```
+
+```{r}
+print(paste("Entropie:", round(str_entropy("ATCATCATCATCATCATCATCATCATCATCA", 3), 6)))
+```
+
+# An Actual k-mer from Monkeypox CDS Sequence
+For an actual k-mer from the problematic Monkeypox CDS, the entropie even increases when changing elementary motif from single nucleotide to 3-mer.
+
+```{r}
+print(paste("Entropie:", round(str_entropy("GATGATGATGATGATATCATAGATGATGATG", 1), 6)))
+```
+
+```{r}
+print(paste("Entropie:", round(str_entropy("GATGATGATGATGATATCATAGATGATGATG", 2), 6)))
+```
+
+```{r}
+print(paste("Entropie:", round(str_entropy("GATGATGATGATGATATCATAGATGATGATG", 3), 6)))
+```

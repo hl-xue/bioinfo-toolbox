@@ -1,0 +1,7 @@
+*.tsv
+*.tsv.gz
+*.o 
+*.swp
+*.dSYM
+.DS_Store
+.Rhistory
