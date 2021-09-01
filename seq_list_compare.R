@@ -2,12 +2,14 @@ rm(list = ls())
 
 get_rc <- function(seq)
 {
+    seq <- as.character(seq)
     seq_rc <- paste(rev(unlist(strsplit(chartr("ACGT", "TGCA", seq), NULL))), collapse = "")
     return(seq_rc)
 }
 
 get_cano <- function(seq)
 {
+    seq <- as.character(seq)
     seq_rc <- get_rc(seq)
     if (seq < seq_rc)
     {
